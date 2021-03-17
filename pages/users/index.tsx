@@ -14,7 +14,7 @@ const WithStaticProps = ({ items }: Props) => (
   <Layout title="Users List | Next.js + TypeScript Example">
     <h1>Users List</h1>
     <p>
-      Example fetching data from inside <code>getStaticProps()</code>.
+      Example fetching data from inside <span>hi</span> <code>getStaticProps()</code>.
     </p>
     <p>You are currently on: /users</p>
     <List items={items} />
@@ -23,6 +23,19 @@ const WithStaticProps = ({ items }: Props) => (
         <a>Go home</a>
       </Link>
     </p>
+    <style>{`
+      p {
+        color: blue;
+      }
+      div {
+        background: white;
+      }
+      @media (max-width: 600px) {
+        div {
+          background: blue;
+        }
+      }
+    `}</style>
   </Layout>
 )
 
