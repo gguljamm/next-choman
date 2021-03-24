@@ -20,7 +20,11 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./*"],
-    }
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./typings"
+    ]
   },
   "exclude": ["node_modules"],
   "include": ["**/*.ts", "**/*.tsx"]

@@ -23,7 +23,7 @@ const WithStaticProps = ({ items }: Props) => (
         <a>Go home</a>
       </Link>
     </p>
-    <style>{`
+    <style jsx>{`
       p {
         color: blue;
       }
