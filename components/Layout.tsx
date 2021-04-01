@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 type Props = {
   children?: ReactNode
@@ -9,6 +10,15 @@ type Props = {
 }
 
 const Layout = ({ children, title = 'This is the default title' }: Props) => {
+  const items = [
+    { text: 'Home', url: '/' },
+    { text: 'Daily', url: '/daily' },
+    { text: 'Retrospect', url: '/retrospect' },
+    { text: 'Portfolio', url: '/portfolio' },
+    { text: 'Develop', url: '/develop' },
+    { text: 'Review', url: '/review' },
+    { text: 'Travel', url: '/travel' },
+  ];
   return <div>
       <Head>
         <title>{title}</title>
@@ -24,17 +34,14 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
       <div className={'layout-wrapper'}>
         <header>
           <nav>
-            <div className={'logo'}/>
-            <Link href="/">
-              <a className={`${useRouter().route === '/' ? 'active' : ''}`}>Home</a>
-            </Link>
-            <Link href="/about">
-              <a className={`${useRouter().route === '/about' ? 'active' : ''}`}>About</a>
-            </Link>
-            <Link href="/users">
-              <a className={`${useRouter().route === '/users' ? 'active' : ''}`}>Users List</a>
-            </Link>
-            <a href="/api/users">Users API</a>
+            <div className={'logoWrap'}>
+              <Image src="/logo.png" alt="logo" width="111" height="26"/>
+            </div>
+            {items.map((item) => (
+              <Link key={item.text} href={`${item.url}`}>
+                <a className={`${useRouter().route === item.url ? 'active' : ''}`}>{`${item.text}`}</a>
+              </Link>
+            ))}
           </nav>
         </header>
         <div className={'content-wrapper'}>
@@ -49,13 +56,9 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
             flex: auto;
           }
   
-          .logo {
-            margin: 40px auto;
-            background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_153a02.png);
-            background-size: 220px 205px;
-            width: 111px;
-            height: 26px;
-            background-position: 0 -79px;
+          .logoWrap {
+            text-align: center;
+            margin: 40px 0;
           }
         }
   
