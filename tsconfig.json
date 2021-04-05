@@ -24,7 +24,8 @@
     "typeRoots": [
       "./node_modules/@types",
       "./typings"
-    ]
+    ],
+    "experimentalDecorators": true
   },
   "exclude": ["node_modules"],
   "include": ["**/*.ts", "**/*.tsx"]
