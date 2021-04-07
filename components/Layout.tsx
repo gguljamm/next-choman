@@ -59,8 +59,8 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
                 <div className={`btn${`/${useRouter().route.split('/')[1]}` === item.url ? ' active' : ''}`} onClick={() => handleClick(item.url)}>{ item.text }</div>
                 <ul>
                   { item.children.map((it: { url: string, text: string }) => (
-                    <li>
-                      <Link key={`${item.url}${it.url}`} href={`${item.url}${it.url}`}>
+                    <li key={`${item.text}${it.text}`}>
+                      <Link href={`${item.url}${it.url}`}>
                         <a className={useRouter().route === `${item.url}${it.url}` ? 'btn active' : 'btn'}>{`${it.text}`}</a>
                       </Link>
                     </li>
