@@ -5,10 +5,9 @@ export function getPage(pageId:string) {
   return db.collection('pages').doc(pageId).get().then((doc:any) => doc.data())
 }
 
-export function getDailyRef(limit:number = 9999, orderAsc:boolean = true) {
-  return db.collection("daily")
+export function getDailyRef(limit:number = 9999) {
+  return db.collection('daily')
     .limit(limit)
-    .orderBy('createdAt', orderAsc ? 'asc' : 'desc')
 }
 
 export function getDaily() {
@@ -16,8 +15,8 @@ export function getDaily() {
     .get().then((ss: any) => collectionToObject(ss))
 }
 
-export function watchDaily(onData:Function, limit:number, orderAsc:boolean) {
-  return getDailyRef(limit, orderAsc)
+export function watchDaily(onData:Function, limit:number) {
+  return getDailyRef(limit)
     .onSnapshot((ss: any) => {
       onData(collectionToObject(ss))
     })

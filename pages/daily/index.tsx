@@ -20,7 +20,6 @@ export default class Daily extends React.Component<Props, Props> {
 
   static async getInitialProps() {
     const daily = await api.getDaily()
-    console.log(daily);
     return {
       daily,
     }
@@ -29,10 +28,12 @@ export default class Daily extends React.Component<Props, Props> {
   render() {
     return (
       <Layout>
-        <div>hi</div>
         <Link href="/">고홈</Link>
         {Object.entries(this.model.daily).map(([id, contents]) =>
-          <div key={id}>{ contents.content }</div>
+          <div key={id}>
+            <div>{ contents.date }</div>
+            <div>{ contents.content }</div>
+          </div>
         )}
       </Layout>
     );

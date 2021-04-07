@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -10,16 +10,29 @@ type Props = {
 }
 
 const Layout = ({ children, title = 'This is the default title' }: Props) => {
+
+  const [selectedMenu, setSelectedMenu] = useState(`/${useRouter().route.split('/')[1]}`);
+
+  const handleClick = (menu:string) => {
+    setSelectedMenu(selectedMenu === menu ? '' : menu);
+  };
+
   const items = [
-    { text: 'Home', url: '/' },
-    { text: 'Daily', url: '/daily' },
-    { text: 'Retrospect', url: '/retrospect' },
-    { text: 'Portfolio', url: '/portfolio' },
-    { text: 'Develop', url: '/develop' },
-    { text: 'Review', url: '/review' },
-    { text: 'Travel', url: '/travel' },
+    { text: 'Home', url: '/', children: [] },
+    { text: 'Daily', url: '/daily', children: [] },
+    { text: 'Develop', url: '/develop', children: [
+      { text: 'Posting', url: '/posting' },
+      { text: 'Retrospect', url: '/retrospect' },
+      { text: 'Portfolio', url: '/portfolio' },
+    ]},
+    { text: 'Review', url: '/review', children: [
+      { text: 'Culture Life', url: '/culture' },
+      { text: 'Game', url: '/game' },
+      { text: 'Travel', url: '/travel' },
+    ]},
   ];
-  return <div>
+
+  return<div>
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8"/>
@@ -37,10 +50,23 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
             <div className={'logoWrap'}>
               <Image src="/logo.png" alt="logo" width="111" height="26"/>
             </div>
-            {items.map((item) => (
+            {items.map((item: { text: string, url: string, children: any }) => item.children.length === 0 ? (
               <Link key={item.text} href={`${item.url}`}>
-                <a className={`${useRouter().route === item.url ? 'active' : ''}`}>{`${item.text}`}</a>
+                <a className={`btn${useRouter().route === item.url ? ' active' : ''}`}>{`${item.text}`}</a>
               </Link>
+            ) : (
+              <div key={item.text} className={ `list${selectedMenu === item.url ? ' expend' : ''}` }>
+                <div className={`btn${`/${useRouter().route.split('/')[1]}` === item.url ? ' active' : ''}`} onClick={() => handleClick(item.url)}>{ item.text }</div>
+                <ul>
+                  { item.children.map((it: { url: string, text: string }) => (
+                    <li>
+                      <Link key={`${item.url}${it.url}`} href={`${item.url}${it.url}`}>
+                        <a className={useRouter().route === `${item.url}${it.url}` ? 'btn active' : 'btn'}>{`${it.text}`}</a>
+                      </Link>
+                    </li>
+                  )) }
+                </ul>
+              </div>
             ))}
           </nav>
         </header>
@@ -75,21 +101,30 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
           bottom: 0;
           width: 200px;
   
-          a {
+          .btn {
             color: #828288;
             display: block;
             text-decoration: none;
             text-align: center;
             width: 100%;
             padding: 12px 0;
+            cursor: pointer;
   
             &.active {
               color: #FFF;
             }
           }
+          .list{
+            ul{
+              display: none;
+            }
+            &.expend ul{
+              display: block;
+            }
+          }
         }
       `}</style>
     </div>
-  }
+}
 
 export default Layout
