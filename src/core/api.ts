@@ -1,4 +1,4 @@
-import db, { TIMESTAMP } from './db'
+import db from './db'
 import { collectionToObject } from './utils'
 
 export function getPage(pageId:string) {
@@ -22,13 +22,11 @@ export function watchDaily(onData:Function, limit:number) {
     })
 }
 
-export function addTodo(todo:string) {
-  return db.collection('todos').add({
-    createdAt: TIMESTAMP,
-    todo,
-  })
+export function addDoc(collectionName: string, key: string, obj: any) {
+  return db.collection(collectionName).doc(key).set(obj)
 }
 
 export function deleteTodo(docId:string) {
   return db.collection('todos').doc(docId).delete()
 }
+

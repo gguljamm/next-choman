@@ -2,7 +2,6 @@ import React, { ReactNode, useState } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 
 type Props = {
   children?: ReactNode
@@ -28,6 +27,7 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
     { text: 'Review', url: '/review', children: [
       { text: 'Culture Life', url: '/culture' },
       { text: 'Game', url: '/game' },
+      { text: 'Commodity', url: '/commodity' },
       { text: 'Travel', url: '/travel' },
     ]},
   ];
@@ -48,7 +48,8 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
         <header>
           <nav>
             <div className={'logoWrap'}>
-              <Image src="/logo.png" alt="logo" width="111" height="26"/>
+              <img src="/logo.png" alt="logo" width="111" height="26"/>
+              {/*<Image src="/logo.png" alt="logo" width="111" height="26"/>*/}
             </div>
             {items.map((item: { text: string, url: string, children: any }) => item.children.length === 0 ? (
               <Link key={item.text} href={`${item.url}`}>

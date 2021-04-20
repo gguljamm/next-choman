@@ -25,6 +25,9 @@ export default class Daily extends React.Component<Props, Props> {
     }
   }
 
+  onClickEvent() {
+  }
+
   render() {
     return (
       <Layout>
@@ -35,6 +38,7 @@ export default class Daily extends React.Component<Props, Props> {
             <div>{ contents.content }</div>
           </div>
         )}
+        <button onClick={() => this.onClickEvent()}>백업해볼까</button>
       </Layout>
     );
   }
@@ -54,17 +58,20 @@ class AboutModel {
     this.updateWatch()
   }
 
-  updateWatch() {
-    this.unsubscribe && this.unsubscribe();
-    this.unsubscribe = api.watchDaily((daily: object) => {
-      this.daily = daily;
-    }, this.limit, this.orderAsc)
+  componentDidMount() {
+    this.updateWatch();
   }
 
-  @action async add(value: string) {
+  updateWatch() {
+    api.watchDaily((daily: object) => {
+      this.daily = daily;
+    }, this.limit)
+  }
+
+  @action async add(docName: string, key:string, value: any) {
     this.inputValue = ''
     this.saving = true;
-    await api.addTodo(value)
+    await api.addDoc(docName, key, value)
     this.saving = false;
   }
 
