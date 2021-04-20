@@ -17,6 +17,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
+    "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./*"],

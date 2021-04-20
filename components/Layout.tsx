@@ -42,6 +42,12 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
             margin: 0;
             padding: 0;
           }
+          * {
+            box-sizing: border-box;
+          }
+          *:before, *:after{
+            box-sizing: border-box;
+          }
         `}</style>
       </Head>
       <div className={'layout-wrapper'}>

@@ -4,6 +4,8 @@ import Layout from '~/components/Layout';
 import { observable, action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as api from '~/src/core/api';
+import obj from '~/public/jammggul-export.json';
+import Masonry, {ResponsiveMasonry} from 'react-responsive-masonry';
 
 interface Props {
   daily:any[]
@@ -26,19 +28,46 @@ export default class Daily extends React.Component<Props, Props> {
   }
 
   onClickEvent() {
+    console.log(obj.daily);
   }
 
   render() {
     return (
       <Layout>
-        <Link href="/">고홈</Link>
-        {Object.entries(this.model.daily).map(([id, contents]) =>
-          <div key={id}>
-            <div>{ contents.date }</div>
-            <div>{ contents.content }</div>
-          </div>
-        )}
+        <Link href="/">고홈</Link><br/>
+        <div className={'masonryWrap'}>
+          <ResponsiveMasonry
+            columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
+          >
+            <Masonry>
+              {Object.entries(this.model.daily).map(([id, contents]) =>
+                <div key={id} className={'block'}>
+                  <div>
+                    { contents.imgUrl.map((v:string, i:number) => <img alt={ v } key={ i } src={ v } />) }
+                    <div>{ contents.date }</div>
+                    <div dangerouslySetInnerHTML={{ __html: contents.content.replace(/\n/g, '<br/>') }}></div>
+                  </div>
+                </div>
+              )}
+            </Masonry>
+          </ResponsiveMasonry>
+        </div>
         <button onClick={() => this.onClickEvent()}>백업해볼까</button>
+        <style jsx>{`
+          .masonryWrap{
+            padding: 10px 10px 0;
+            .block{
+              > div{
+                margin: 0 10px 10px;
+                padding: 10px;
+                border: 1px solid #eee;
+                > img{
+                  width: 100%;
+                }
+              }
+            }
+          }
+        `}</style>
       </Layout>
     );
   }
