@@ -35,22 +35,22 @@ export default class Daily extends React.Component<Props, Props> {
     return (
       <Layout>
         <Link href="/">고홈</Link><br/>
-        <div className={'masonryWrap'}>
-          <ResponsiveMasonry
-            columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
+        <div className={'masonryWrap'} suppressHydrationWarning={true}>
+          { process.browser && <ResponsiveMasonry
+            columnsCountBreakPoints={{500: 1, 768: 2, 1000: 3}}
           >
             <Masonry>
               {Object.entries(this.model.daily).map(([id, contents]) =>
                 <div key={id} className={'block'}>
                   <div>
-                    { contents.imgUrl.map((v:string, i:number) => <img alt={ v } key={ i } src={ v } />) }
+                    { contents.imgUrl.map((v:string, i:number) => <img key={ i } alt={ i.toString() } src={ v } />) }
                     <div>{ contents.date }</div>
-                    <div dangerouslySetInnerHTML={{ __html: contents.content.replace(/\n/g, '<br/>') }}></div>
+                    <div dangerouslySetInnerHTML={{ __html: contents.content.replace(/\n/g, '<br/>') }} />
                   </div>
                 </div>
               )}
             </Masonry>
-          </ResponsiveMasonry>
+          </ResponsiveMasonry> }
         </div>
         <button onClick={() => this.onClickEvent()}>백업해볼까</button>
         <style jsx>{`
